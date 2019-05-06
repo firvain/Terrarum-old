@@ -1,7 +1,7 @@
 <template>
   <v-container fluid pl-1 pr-1 pt-1 pb-0 ma-0 class="ovf">
     <v-layout align-center justify-start row wrap fill-height>
-      <v-flex xs12 class="grey darken-3">
+      <v-flex xs12 class="grey darken-3" v-show="this.$route.name != 'results'">
         <v-container pa-0 ma-0>
           <v-layout align-center justify-start row wrap>
             <div v-bind:style="toolStyle">
@@ -27,13 +27,11 @@
 import { mapActions } from "vuex";
 
 const MapTools = () => import("@/components/MapTools");
-// const VueLayersMap = () => import("@/components/VueLayersMap");
 
 export default {
   name: "Map",
   components: {
     MapTools
-    // VueLayersMap
   },
   data() {
     return {};

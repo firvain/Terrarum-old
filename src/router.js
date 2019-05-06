@@ -32,16 +32,31 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "map" */ "./views/Map.vue")
-    },
-    {
-      path: "/results",
-      name: "results",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "results" */ "./views/TableResults.vue")
+      component: () => import(/* webpackChunkName: "map" */ "./views/Map.vue"),
+      children: [
+        {
+          path: "main",
+          name: "main",
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () =>
+            import(
+              /* webpackChunkName: "main" */ "./components/VueLayersMap.vue"
+            )
+        },
+        {
+          path: "results",
+          name: "results",
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () =>
+            import(
+              /* webpackChunkName: "results" */ "./components/MapToolsModuleInfoTable.vue"
+            )
+        }
+      ]
     }
   ]
 });

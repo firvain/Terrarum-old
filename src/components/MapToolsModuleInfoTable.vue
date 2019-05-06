@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout align-center justify-center row fill-height>
-      <v-flex xs12>
+      <v-flex xs8>
         <v-card>
           <v-card-title>
             <v-text-field
@@ -63,7 +63,7 @@ export default {
   methods: {
     ...mapActions("map", ["UPDATE_SELECTED_FEATURE"]),
     backToMap() {
-      this.$router.push("map");
+      this.$router.push("main");
     }
   },
   watch: {},

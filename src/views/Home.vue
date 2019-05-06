@@ -18,11 +18,20 @@
 
 <script>
 // @ is an alias to /src
+import { mapActions } from "vuex";
 
 export default {
   name: "home",
   date() {
     return {};
+  },
+  methods: {
+    ...mapActions("app", ["UPDATE_SIDEBAR"])
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.UPDATE_SIDEBAR(false);
+    });
   }
 };
 </script>

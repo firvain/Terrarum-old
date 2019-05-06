@@ -1,5 +1,5 @@
 <template>
-  <v-layout v-if="this.$route.name === 'map'" pa-3>
+  <v-layout v-if="this.$route.name === 'main'" pa-3>
     <v-flex>
       <v-card class="mx-auto" max-width="500">
         <v-sheet class="pa-3 secondary">

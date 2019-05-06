@@ -10,7 +10,7 @@
   >
     <vl-view
       :zoom.sync="zoom"
-      :center.sync="mapCenter"
+      :center.sync="center"
       :rotation.sync="rotation"
     ></vl-view>
 
@@ -204,20 +204,12 @@ export default {
   name: "VueLayersMap",
   data() {
     return {
-      mapCenter: [0, 0],
-      zoom: 0,
+      center: [21.78896, 40.30069],
+      zoom: 10,
       rotation: 0,
       selectedFeatures: [],
       drawnFeatures: []
     };
-  },
-  props: {
-    mapProps: {
-      type: Object
-    },
-    mapStyle: {
-      type: Object
-    }
   },
   computed: {
     ...mapGetters("map", [
@@ -229,7 +221,32 @@ export default {
       "multiInfo",
       "activeLayer"
     ]),
-    ...mapGetters("app", ["appStatus", "print"])
+    ...mapGetters("app", ["appStatus", "print"]),
+    mapStyle() {
+      const footerClientHeight = document.getElementsByTagName("footer")[0]
+        .clientHeight;
+      const toolBarClientHeight = document.getElementsByTagName("nav")[0]
+        .clientHeight;
+      // .clientHeight;
+      let h;
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        h =
+          this.$vuetify.breakpoint.height -
+          footerClientHeight -
+          toolBarClientHeight -
+          56;
+      } else {
+        h =
+          this.$vuetify.breakpoint.height -
+          footerClientHeight -
+          toolBarClientHeight -
+          104;
+      }
+      return {
+        height: h.toString() + "px",
+        width: "100%"
+      };
+    }
   },
   methods: {
     ...mapActions("map", ["UPDATE_SELECTED_FEATURE", "UPDATE_MEASURE_OUTPUT"]),
@@ -290,14 +307,6 @@ export default {
     }
   },
   watch: {
-    mapProps(newValue, oldValue) {
-      console.log(newValue);
-      if (newValue != oldValue) {
-        this.mapCenter = newValue.center;
-        this.zoom = newValue.zoom;
-        this.rotation = newValue.rotation;
-      }
-    },
     mapStyle(newValue, oldValue) {
       if (newValue.height != oldValue.height) {
         this.$nextTick().then(() => {
@@ -319,7 +328,7 @@ export default {
           }
         }
         this.UPDATE_SELECTED_FEATURE(selection);
-        this.$router.push("results");
+        this.$router.push({ name: "results" });
         this.UPDATE_SIDEBAR(false);
       }
       this.UPDATE_SELECTED_FEATURE(selection);
@@ -364,10 +373,11 @@ export default {
       map.getView().fit(extent, { size: printSize });
     }
   },
-  mounted() {
-    this.mapCenter = this.mapProps.center;
-    this.zoom = this.mapProps.zoom;
-    this.rotation = this.mapProps.rotation;
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.UPDATE_SIDEBAR(true);
+      vm.UPDATE_LOADING(true);
+    });
   }
 };
 </script>

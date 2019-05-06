@@ -19,7 +19,9 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn icon to="/map" v-on="on"><v-icon>mdi-map</v-icon></v-btn>
+            <v-btn icon to="/map/main" v-on="on"
+              ><v-icon>mdi-map</v-icon></v-btn
+            >
           </template>
           <span>{{ $t("toolbar.map") }}</span>
         </v-tooltip>

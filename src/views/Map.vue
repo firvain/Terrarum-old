@@ -13,10 +13,11 @@
         </v-container>
       </v-flex>
       <v-flex xs12>
-        <VueLayersMap
+        <router-view></router-view>
+        <!-- <VueLayersMap
           :mapStyle="mapStyle"
           :mapProps="this.mapProps"
-        ></VueLayersMap>
+        ></VueLayersMap> -->
       </v-flex>
     </v-layout>
   </v-container>
@@ -26,63 +27,32 @@
 import { mapActions } from "vuex";
 
 const MapTools = () => import("@/components/MapTools");
-const VueLayersMap = () => import("@/components/VueLayersMap");
+// const VueLayersMap = () => import("@/components/VueLayersMap");
 
 export default {
   name: "Map",
   components: {
-    MapTools,
-    VueLayersMap
+    MapTools
+    // VueLayersMap
   },
   data() {
-    return {
-      mapProps: {
-        center: [21.78896, 40.30069],
-        zoom: 10,
-        rotation: 0
-      }
-    };
+    return {};
   },
   computed: {
     toolStyle() {
       if (this.$vuetify.breakpoint.mdAndUp) return { height: "48px" };
       return { height: "96px" };
-    },
-    mapStyle() {
-      const footerClientHeight = document.getElementsByTagName("footer")[0]
-        .clientHeight;
-      const toolBarClientHeight = document.getElementsByTagName("nav")[0]
-        .clientHeight;
-      // .clientHeight;
-      let h;
-      if (this.$vuetify.breakpoint.mdAndUp) {
-        h =
-          this.$vuetify.breakpoint.height -
-          footerClientHeight -
-          toolBarClientHeight -
-          56;
-      } else {
-        h =
-          this.$vuetify.breakpoint.height -
-          footerClientHeight -
-          toolBarClientHeight -
-          104;
-      }
-      return {
-        height: h.toString() + "px",
-        width: "100%"
-      };
     }
   },
   methods: {
-    ...mapActions("app", ["UPDATE_LOADING", "UPDATE_APP_STATUS"])
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.UPDATE_LOADING(true);
-    });
+    ...mapActions("app", [
+      "UPDATE_LOADING",
+      "UPDATE_APP_STATUS",
+      "UPDATE_SIDEBAR"
+    ])
   },
   beforeRouteLeave(to, from, next) {
+    alert("left");
     this.UPDATE_APP_STATUS("display");
     next();
   }
@@ -90,7 +60,7 @@ export default {
 </script>
 <style>
 .ovf {
-  /* overflow-y: hidden; */
+  overflow-y: hidden;
 }
 .ol-overviewmap {
   bottom: auto;

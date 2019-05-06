@@ -22,10 +22,18 @@
   </v-container>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    ...mapActions("app", ["UPDATE_SIDEBAR"])
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.UPDATE_SIDEBAR(false);
+    });
+  }
 };
 </script>

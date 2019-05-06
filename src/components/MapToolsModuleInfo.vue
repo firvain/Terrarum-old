@@ -5,7 +5,7 @@
         <v-select
           v-model="selectedLayer"
           :items="items"
-          :label="$t('map.tools.select.tooltip') | uppercase"
+          :label="$t('map.tools.info.select.label') | uppercase"
           solo
           dense
           dark

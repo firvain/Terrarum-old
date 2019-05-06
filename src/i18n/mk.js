@@ -27,13 +27,16 @@ export default {
       },
       info: {
         tooltip: "слој информации",
+        select: {
+          label: "одберете слој"
+        },
         multi: "преклопувачки карактеристики",
         table: {
           search: "пребарување"
         }
       },
-      select: {
-        tooltip: "одберете слој"
+      print: {
+        tooltip: "печати"
       },
       cancel: "откажете"
     }

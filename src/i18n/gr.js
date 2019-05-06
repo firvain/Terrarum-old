@@ -27,13 +27,16 @@ export default {
       },
       info: {
         tooltip: "πληροφορίες επιπέδου",
+        select: {
+          label: "επιλογη επιπεδου"
+        },
         multi: "επικαλυπτομενα στοχεια",
         table: {
           search: "αναζητηση"
         }
       },
-      select: {
-        tooltip: "επιλογη επιπεδου"
+      print: {
+        tooltip: "εκτυπωση"
       },
       cancel: "ακυρωση"
     }

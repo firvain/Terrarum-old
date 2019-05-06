@@ -27,13 +27,16 @@ export default {
       },
       info: {
         tooltip: "layer info",
+        select: {
+          label: "select layer"
+        },
         multi: "overlaping features",
         table: {
           search: "search"
         }
       },
-      select: {
-        tooltip: "select layer"
+      print: {
+        tooltip: "print"
       },
       cancel: "cancel"
     }

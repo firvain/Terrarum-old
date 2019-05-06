@@ -5,19 +5,38 @@
         <p class="ma-0 d-inline white--text">
           {{ $t("map.tools.name") | uppercase }}
         </p>
-
-        <v-btn icon color="accent" @click="toolAction('draw')"
-          ><v-icon>mdi-square-edit-outline</v-icon></v-btn
-        >
-        <v-btn icon color="accent" @click="toolAction('measure')"
-          ><v-icon>mdi-tape-measure</v-icon></v-btn
-        >
-        <v-btn icon color="accent" @click="toolAction('info')"
-          ><v-icon>mdi-information-variant</v-icon></v-btn
-        >
-        <v-btn icon color="accent" @click="toolAction('print')"
-          ><v-icon>mdi-printer</v-icon></v-btn
-        >
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon color="accent" @click="toolAction('draw')" v-on="on">
+              <v-icon>mdi-square-edit-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t("map.tools.draw.tooltip") | uppercase }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon color="accent" @click="toolAction('measure')" v-on="on">
+              <v-icon>mdi-tape-measure</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t("map.tools.measure.tooltip") | uppercase }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon color="accent" @click="toolAction('info')" v-on="on">
+              <v-icon>mdi-information-variant</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t("map.tools.info.tooltip") | uppercase }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon color="accent" @click="toolAction('print')" v-on="on"
+              ><v-icon>mdi-printer</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t("map.tools.print.tooltip") | uppercase }}</span>
+        </v-tooltip>
       </v-flex>
     </v-layout>
   </v-container>

@@ -8,8 +8,8 @@
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
-    "postinstall": "npm run build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build ; fi "
   },
   "license": "MIT",
   "author": {
@@ -23,7 +23,9 @@
   "dependencies": {
     "colormap": "^2.3.1",
     "core-js": "^2.6.5",
+    "express": "^4.16.4",
     "jspdf": "^1.5.3",
+    "serve-static": "^1.13.2",
     "vue": "^2.6.10",
     "vue-country-flag": "^1.1.1",
     "vue-router": "^3.0.3",

@@ -42,7 +42,6 @@ export default {
   },
   computed: {
     toolStyle() {
-      console.log(this.$vuetify.breakpoint);
       if (this.$vuetify.breakpoint.mdAndUp) return { height: "48px" };
       return { height: "96px" };
     },
@@ -78,7 +77,7 @@ export default {
 </script>
 <style>
 .ovf {
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
 .ol-overviewmap {
   bottom: auto;

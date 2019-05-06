@@ -233,7 +233,7 @@ export default {
   },
   methods: {
     ...mapActions("map", ["UPDATE_SELECTED_FEATURE", "UPDATE_MEASURE_OUTPUT"]),
-    ...mapActions("app", ["UPDATE_PRINT", "UPDATE_LOADING"]),
+    ...mapActions("app", ["UPDATE_PRINT", "UPDATE_LOADING", "UPDATE_SIDEBAR"]),
     onMapMounted() {
       // now ol.Map instance is ready and we can work with it directly
       this.$refs.map.$map.getControls().extend([
@@ -319,6 +319,8 @@ export default {
           }
         }
         this.UPDATE_SELECTED_FEATURE(selection);
+        this.$router.push("results");
+        this.UPDATE_SIDEBAR(false);
       }
       this.UPDATE_SELECTED_FEATURE(selection);
     },
@@ -327,7 +329,7 @@ export default {
       if (newValue === "display") {
         this.drawnFeatures = [];
         this.selectedFeatures = [];
-        this.UPDATE_SELECTED_FEATURE({});
+        this.UPDATE_SELECTED_FEATURE([]);
       }
     },
     print(newValue) {

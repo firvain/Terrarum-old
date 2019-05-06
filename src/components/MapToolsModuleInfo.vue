@@ -31,9 +31,9 @@
         </v-btn>
       </v-flex>
       <v-spacer></v-spacer>
-      <v-flex v-if="this.selectedFeature.length !== 0" xs12 pa-4
+      <!-- <v-flex v-if="this.selectedFeature.length !== 0" xs12 pa-4
         ><MapToolsInfoToolTable></MapToolsInfoToolTable>
-      </v-flex>
+      </v-flex> -->
     </v-layout>
   </v-container>
 </template>
@@ -41,7 +41,7 @@
 import Vue2Filters from "vue2-filters";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
-import MapToolsInfoToolTable from "@/components/MapToolsInfoToolTable";
+// import MapToolsInfoToolTable from "@/components/MapToolsInfoToolTable";
 export default {
   name: "MapToolsModulesInfo",
   mixins: [Vue2Filters.mixin],
@@ -51,7 +51,7 @@ export default {
     };
   },
   components: {
-    MapToolsInfoToolTable
+    // MapToolsInfoToolTable
   },
   computed: {
     ...mapGetters("app", ["appStatus", "multiInfo"]),

@@ -26,7 +26,7 @@
       </v-flex>
       <v-flex shrink class="text-xs-center text-md-left">
         <v-chip label color="pink" text-color="white" v-model="result">
-          <v-icon left>label</v-icon>{{ this.measureOutput }}
+          <v-icon left>mdi-label</v-icon>{{ this.measureOutput }}
         </v-chip>
       </v-flex>
       <v-flex xs12 md2 class="text-xs-center text-md-left">

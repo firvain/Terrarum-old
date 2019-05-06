@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/firvain/terrarum.git"
+    "url": "https://github.com/firvain/Terrarum.git"
   },
   "dependencies": {
     "colormap": "^2.3.1",

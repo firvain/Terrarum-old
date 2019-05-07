@@ -1,12 +1,12 @@
 <template>
   <v-app>
     <AppLoading></AppLoading>
-    <v-navigation-drawer v-model="drawer" app :width="400" stateless>
+    <v-navigation-drawer v-model="drawer" app :width="400" stateless clipped>
       <LayersTree></LayersTree>
       <!-- <featureInfo v-if="appStatus === 'info'"></featureInfo> -->
     </v-navigation-drawer>
-    <v-toolbar color="primary" dark fixed app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+    <v-toolbar color="primary" dark fixed app clipped-left>
+      <v-toolbar-side-icon @click.stop="handleDrawer"></v-toolbar-side-icon>
       <img src="@/assets/logo.png" width="60" height="60" alt="" />
       <v-toolbar-title class="hidden-sm-and-down">Terrarum</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -111,26 +111,33 @@ export default {
     CountryFlag
   },
   data() {
-    return {};
+    return {
+      drawer: false
+    };
   },
   computed: {
     ...mapGetters("app", ["appStatus", "sidebar"]),
-    drawer: {
-      get() {
-        return this.sidebar;
-      },
-      set(value) {
-        this.UPDATE_SIDEBAR(value);
-      }
-    },
+
     currentLang() {
       return this.$i18n.locale();
     }
   },
   methods: {
     ...mapActions("app", ["UPDATE_SIDEBAR"]),
+    handleDrawer() {
+      if (this.drawer) {
+        this.UPDATE_SIDEBAR(false);
+      } else {
+        this.UPDATE_SIDEBAR(true);
+      }
+    },
     country(v) {
       this.$i18n.set(v);
+    }
+  },
+  watch: {
+    sidebar(newValue, oldValue) {
+      if (newValue != oldValue) this.drawer = newValue;
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid pl-1 pr-1 pt-1 pb-0 ma-0 class="ovf">
+  <v-container fluid pl-1 pr-1 pt-1 pb-0 ma-0>
     <v-layout align-center justify-start row wrap fill-height>
       <v-flex xs12 class="grey darken-3" v-show="this.$route.name != 'results'">
         <v-container pa-0 ma-0>
@@ -43,14 +43,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions("app", [
-      "UPDATE_LOADING",
-      "UPDATE_APP_STATUS",
-      "UPDATE_SIDEBAR"
-    ])
+    ...mapActions("app", ["UPDATE_APP_STATUS"])
   },
   beforeRouteLeave(to, from, next) {
-    alert("left");
     this.UPDATE_APP_STATUS("display");
     next();
   }

@@ -80,7 +80,6 @@ export default {
   methods: {
     ...mapActions("app", [
       "UPDATE_APP_STATUS",
-      "UPDATE_SIDEBAR",
       "UPDATE_MULTI_INFO",
       "UPDATE_ACTIVE_LAYER"
     ]),
@@ -89,8 +88,6 @@ export default {
       this.UPDATE_APP_STATUS("display");
     }
   },
-  mounted() {
-    // this.UPDATE_SIDEBAR(true);
-  }
+  mounted() {}
 };
 </script>

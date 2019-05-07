@@ -30,6 +30,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -50,12 +51,15 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapGetters("app", ["sidebar"])
+  },
   methods: {
     ...mapActions("app", ["UPDATE_SIDEBAR"])
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.UPDATE_SIDEBAR(false);
+      if (vm.sidebar) vm.UPDATE_SIDEBAR(false);
     });
   }
 };

@@ -221,7 +221,7 @@ export default {
       "multiInfo",
       "activeLayer"
     ]),
-    ...mapGetters("app", ["appStatus", "print"]),
+    ...mapGetters("app", ["appStatus", "sidebar", "print"]),
     mapStyle() {
       const footerClientHeight = document.getElementsByTagName("footer")[0]
         .clientHeight;
@@ -257,7 +257,7 @@ export default {
         new ScaleLine(),
         new FullScreen(),
         new OverviewMap({
-          collapsed: false,
+          collapsed: true,
           collapsible: true
         }),
         new ZoomSlider()
@@ -310,7 +310,6 @@ export default {
     mapStyle(newValue, oldValue) {
       if (newValue.height != oldValue.height) {
         this.$nextTick().then(() => {
-          console.log(newValue.height, oldValue.height);
           this.$refs.map.refresh();
         });
       }
@@ -329,7 +328,6 @@ export default {
         }
         this.UPDATE_SELECTED_FEATURE(selection);
         this.$router.push({ name: "results" });
-        this.UPDATE_SIDEBAR(false);
       }
       this.UPDATE_SELECTED_FEATURE(selection);
     },
@@ -375,7 +373,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.UPDATE_SIDEBAR(true);
+      if (!vm.sidebar) vm.UPDATE_SIDEBAR(true);
       vm.UPDATE_LOADING(true);
     });
   }

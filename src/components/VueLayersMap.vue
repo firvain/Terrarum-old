@@ -22,6 +22,11 @@
       :visible="layer.visible"
     >
       <component :is="'vl-source-' + layer.name" v-bind="layer"></component>
+      <!-- <component
+        :is="layer.source.cmp"
+        v-bind="layer.source"
+        v-if="layer.title === 'ktimanet'"
+      ></component> -->
     </vl-layer-tile>
     <!--// Base layers from Vuex-->
     <!-- other layers from Vuex -->

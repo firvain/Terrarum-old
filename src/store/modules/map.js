@@ -14,7 +14,7 @@ const state = {
     //   title: "Sputnik Maps",
     //   visible: false
     // },
-    102: {
+    101: {
       name: "bingmaps",
       title: "Bing Maps",
       apiKey:
@@ -22,11 +22,24 @@ const state = {
       imagerySet: "AerialWithLabelsOnDemand",
       visible: false
     }
+    // 102: {
+    //   name: "wms",
+    //   title: "ktimanet",
+    //   cmp: "vl-layer-tile",
+    //   visible: true,
+    //   source: {
+    //     cmp: "vl-source-wms",
+    //     url: "http://gis.ktimanet.gr/wms/wmsopen/wmsserver.aspx?",
+    //     layers: "KTBASEMAP",
+    //     extParams: { TILED: true }
+    //     // serverType: 'geoserver',
+    //   }
+    // }
   },
   layersList: [200, 201, 202],
   layers: {
     200: {
-      title: "Bird Directive Sites",
+      title: "Bird Directive Sites [EN]",
       cmp: "vl-layer-vector",
       visible: true,
       renderMode: "image",
@@ -44,7 +57,7 @@ const state = {
       ]
     },
     201: {
-      title: "Habitats Directive Sites",
+      title: "Habitats Directive Sites [EN]",
       cmp: "vl-layer-vector",
       visible: true,
       renderMode: "image",
@@ -62,7 +75,7 @@ const state = {
       ]
     },
     203: {
-      title: "Όρια Δήμων (Καλλικράτης)",
+      title: "Municipality boundaries (Kallikratis) [EL]",
       cmp: "vl-layer-vector",
       visible: false,
       renderMode: "image",
@@ -71,7 +84,7 @@ const state = {
         features: [],
         url(extent, resolution, projection) {
           return (
-            "http://geodata.gov.gr/geoserver/ows?service=WFS&" +
+            "https://geodata.gov.gr/geoserver/ows?service=WFS&" +
             "&request=GetFeature&version=2.0.0" +
             "&outputFormat=json&srsName=" +
             projection +

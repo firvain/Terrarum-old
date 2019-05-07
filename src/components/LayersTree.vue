@@ -121,3 +121,13 @@ export default {
   watch: {}
 };
 </script>
+<style>
+/* fix for overflowing text in v-treeview */
+.v-treeview-node__content,
+.v-treeview-node__label {
+  flex-shrink: 1;
+}
+.v-treeview-node__root {
+  height: auto;
+}
+</style>

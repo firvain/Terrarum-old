@@ -14,5 +14,6 @@ app.use(
     verbose: true
   })
 );
+app.use(serveStatic(path.join(__dirname, "dist")));
 const port = process.env.PORT || 80;
 app.listen(port);

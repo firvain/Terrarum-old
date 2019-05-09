@@ -18,13 +18,18 @@
           ></v-radio>
         </v-radio-group>
       </v-flex>
-      <v-flex xs12 md1 class="text-xs-center text-md-left">
+      <v-flex xs6 md3 class="text-xs-center ">
+        <v-btn small color="accent" @click="exportJson()"
+          >Export Geojson
+          <v-icon right small>mdi-database-export</v-icon>
+        </v-btn>
+      </v-flex>
+      <v-flex xs6 md2 class="text-xs-center ">
         <v-btn small color="error" @click="toolActionCancel()"
           >{{ $t("map.tools.cancel") }}
           <v-icon right small>mdi-cancel</v-icon>
         </v-btn>
       </v-flex>
-      <v-spacer></v-spacer>
     </v-layout>
   </v-container>
 </template>
@@ -71,11 +76,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions("app", ["UPDATE_APP_STATUS"]),
+    ...mapActions("app", ["UPDATE_APP_STATUS", "UPDATE_EXPORT_JSON"]),
     ...mapActions("map", ["UPDATE_DRAW_TYPE"]),
     toolActionCancel() {
       this.UPDATE_APP_STATUS("display");
       this.UPDATE_DRAW_TYPE(undefined);
+    },
+    exportJson() {
+      this.UPDATE_EXPORT_JSON(true);
     }
   },
   watch: {}

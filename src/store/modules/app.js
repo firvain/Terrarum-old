@@ -9,13 +9,15 @@ const state = {
     dim1: undefined,
     format: undefined
   },
+  exportJson: false,
   loading: false
 };
 const getters = {
   appStatus: state => state.appStatus,
   sidebar: state => state.sidebar,
   print: state => state.print,
-  loading: state => state.loading
+  loading: state => state.loading,
+  exportJson: state => state.exportJson
 };
 const mutations = {
   SET_APP_STATUS(state, payload) {
@@ -29,6 +31,9 @@ const mutations = {
   },
   SET_LOADING(state, payload) {
     state.loading = payload;
+  },
+  SET_EXPORT_JSON(state, payload) {
+    state.exportJson = payload;
   }
 };
 const actions = {
@@ -43,6 +48,9 @@ const actions = {
   },
   UPDATE_LOADING({ commit }, payload) {
     commit("SET_LOADING", payload);
+  },
+  UPDATE_EXPORT_JSON({ commit }, payload) {
+    commit("SET_EXPORT_JSON", payload);
   }
 };
 export default {

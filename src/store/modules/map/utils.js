@@ -1,8 +1,8 @@
 import { createStyle } from "vuelayers/lib/ol-ext";
 // import { getArea } from "ol/sphere";
 import colormap from "colormap";
-// const min = 1e8; // the smallest area
-// const max = 2e13; // the biggest area
+import { fetch } from "whatwg-fetch";
+
 const steps = 9;
 const ramp = colormap({
   colormap: "chlorophyll",
@@ -61,8 +61,8 @@ export function NaturaStyleFunc() {
         strokeWidth: 1,
         fillColor: ramp[1],
         text,
-        textStrokeColor: "black",
-        textFillColor: "black"
+        textStrokeColor: "white",
+        textFillColor: "white"
       })
     ];
     const sci = [
@@ -71,8 +71,8 @@ export function NaturaStyleFunc() {
         strokeWidth: 1,
         fillColor: ramp[5],
         text,
-        textStrokeColor: "black",
-        textFillColor: "black"
+        textStrokeColor: "white",
+        textFillColor: "white"
       })
     ];
     const spasci = [
@@ -81,8 +81,8 @@ export function NaturaStyleFunc() {
         strokeWidth: 1,
         fillColor: ramp[8],
         text,
-        textStrokeColor: "black",
-        textFillColor: "black"
+        textStrokeColor: "white",
+        textFillColor: "white"
       })
     ];
     switch (feature.getProperties().SITETYPE) {
@@ -114,5 +114,28 @@ export function drawStyle() {
 
   return function _selectStyle() {
     return style;
+  };
+}
+export function loaderFactory(vm) {
+  return async (extent, resolution, projection) => {
+    let url = vm.$source.getUrl();
+    url = url(extent, resolution, projection); //url must be a function
+    try {
+      const response = await fetch(url, {
+        credentials: "same-origin",
+        mode: "cors"
+      });
+      const text = await response.text();
+      return vm.$source.getFormat().readFeatures(text, {
+        featureProjection: vm.viewProjection,
+        dataProjection: vm.resolvedDataProjection
+      });
+    } catch (error) {
+      const e = {
+        msg: error,
+        id: vm.$parent.$props.id
+      };
+      vm.$emit("error", e);
+    }
   };
 }

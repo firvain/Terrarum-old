@@ -9,11 +9,16 @@
                 <MapTools></MapTools>
               </v-fade-transition>
             </div>
+            <v-flex xs12>
+              <v-alert v-model="alert" dismissible type="error">
+                {{ msg }}
+              </v-alert>
+            </v-flex>
           </v-layout>
         </v-container>
       </v-flex>
       <v-flex xs12>
-        <router-view></router-view>
+        <router-view @error="actOnError"></router-view>
         <!-- <VueLayersMap
           :mapStyle="mapStyle"
           :mapProps="this.mapProps"
@@ -25,6 +30,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 const MapTools = () => import("@/components/MapTools");
 
@@ -34,7 +40,10 @@ export default {
     MapTools
   },
   data() {
-    return {};
+    return {
+      msg: "",
+      alert: false
+    };
   },
   computed: {
     toolStyle() {
@@ -43,7 +52,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions("app", ["UPDATE_APP_STATUS"])
+    ...mapActions("app", ["UPDATE_APP_STATUS"]),
+    actOnError(error) {
+      this.alert = true;
+      this.msg = error;
+    }
   },
   beforeRouteLeave(to, from, next) {
     this.UPDATE_APP_STATUS("display");

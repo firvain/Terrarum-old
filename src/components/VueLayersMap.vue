@@ -43,6 +43,7 @@
         :is="layer.source.cmp"
         v-bind="layer.source"
         @update:features="layerloaded"
+        @error="handleError"
       >
         <!-- add static features to vl-source-vector if provided -->
         <vl-feature
@@ -194,7 +195,7 @@
 </template>
 <script>
 import jsPDF from "jspdf";
-
+import { saveAs } from "file-saver";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 
@@ -226,7 +227,7 @@ export default {
       "multiInfo",
       "activeLayer"
     ]),
-    ...mapGetters("app", ["appStatus", "sidebar", "print"]),
+    ...mapGetters("app", ["appStatus", "sidebar", "print", "exportJson"]),
     mapStyle() {
       const footerClientHeight = document.getElementsByTagName("footer")[0]
         .clientHeight;
@@ -254,8 +255,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions("map", ["UPDATE_SELECTED_FEATURE", "UPDATE_MEASURE_OUTPUT"]),
-    ...mapActions("app", ["UPDATE_PRINT", "UPDATE_LOADING", "UPDATE_SIDEBAR"]),
+    ...mapActions("map", [
+      "UPDATE_SELECTED_FEATURE",
+      "UPDATE_MEASURE_OUTPUT",
+      "UPDATE_VISIBILITY",
+      "NULL_LAYER"
+    ]),
+    ...mapActions("app", [
+      "UPDATE_PRINT",
+      "UPDATE_LOADING",
+      "UPDATE_SIDEBAR",
+      "UPDATE_EXPORT_JSON"
+    ]),
     onMapMounted() {
       // now ol.Map instance is ready and we can work with it directly
       this.$refs.map.$map.getControls().extend([
@@ -309,6 +320,12 @@ export default {
     filterF(feature, layer) {
       if (layer.get("id") == this.activeLayer) return true;
       return false;
+    },
+    async handleError({ msg, id }) {
+      this.$emit("error", msg);
+      this.NULL_LAYER({ id });
+      this.UPDATE_VISIBILITY({ id, value: false });
+      this.UPDATE_LOADING(false);
     }
   },
   watch: {
@@ -374,6 +391,32 @@ export default {
       const printSize = [newValue.width, newValue.height];
       map.setSize(printSize);
       map.getView().fit(extent, { size: printSize });
+    },
+    async exportJson(newValue) {
+      if (newValue) {
+        const myPromise = new Promise((resolve, reject) => {
+          const vectorSource = this.$refs.draw.$layer.getSource();
+          var writer = vectorSource.getFormat();
+          const features = vectorSource.getFeatures();
+          const geojsonStr = writer.writeFeatures(features);
+          if (Array.isArray(features) && features.length !== 0) {
+            const data = new Blob([geojsonStr], { type: "text/plain" });
+            saveAs(data, "geojson_" + Date.now().toString() + ".json");
+            resolve("done");
+          }
+          reject("Draw Some Features First...");
+        });
+        try {
+          const result = await myPromise;
+          console.log(result);
+          // if (result) this.UPDATE_EXPORT_JSON(false);
+        } catch (error) {
+          this.$emit("error", error);
+        } finally {
+          this.UPDATE_EXPORT_JSON(false);
+        }
+      }
+      // this.UPDATE_EXPORT_JSON(false);
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -381,6 +424,13 @@ export default {
       if (!vm.sidebar) vm.UPDATE_SIDEBAR(true);
       vm.UPDATE_LOADING(true);
     });
+  },
+  mounted() {
+    // alert("asdasd");
+    // Object.keys(this.layers).forEach(i => {
+    //   if (this.layers[i].visible) return;
+    // });
+    // this.UPDATE_LOADING(false);
   }
 };
 </script>

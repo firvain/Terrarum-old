@@ -132,9 +132,9 @@ export default {
 /* fix for overflowing text in v-treeview */
 .v-treeview-node__content,
 .v-treeview-node__label {
-  flex-shrink: 1;
+  flex-shrink: 1 !important;
 }
 .v-treeview-node__root {
-  height: auto;
+  height: auto !important;
 }
 </style>

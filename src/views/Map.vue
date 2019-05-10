@@ -10,7 +10,12 @@
               </v-fade-transition>
             </div>
             <v-flex xs12>
-              <v-alert v-model="alert" dismissible type="error">
+              <v-alert
+                v-model="alert"
+                dismissible
+                type="error"
+                transition="scale-transition"
+              >
                 {{ msg }}
               </v-alert>
             </v-flex>

@@ -46,13 +46,13 @@
                 @click="changeVisibility(item)"
               ></v-icon
             ></template>
-            <template v-slot:append="{ item }">
+            <!-- <template v-slot:append="{ item }">
               <v-icon
                 v-if="item.loaded == false"
                 color="error"
                 v-text="'mdi-close-circle'"
               ></v-icon>
-            </template>
+            </template> -->
           </v-treeview>
         </v-card-text>
       </v-card>

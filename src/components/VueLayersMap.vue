@@ -259,7 +259,7 @@ export default {
       "UPDATE_SELECTED_FEATURE",
       "UPDATE_MEASURE_OUTPUT",
       "UPDATE_VISIBILITY",
-      "NULL_LAYER"
+      "UPDATE_LAYER_LOADED"
     ]),
     ...mapActions("app", [
       "UPDATE_PRINT",
@@ -323,7 +323,6 @@ export default {
     },
     async handleError({ msg, id }) {
       this.$emit("error", msg);
-      this.NULL_LAYER({ id });
       this.UPDATE_VISIBILITY({ id, value: false });
       this.UPDATE_LOADING(false);
     }
@@ -402,14 +401,12 @@ export default {
           if (Array.isArray(features) && features.length !== 0) {
             const data = new Blob([geojsonStr], { type: "text/plain" });
             saveAs(data, "geojson_" + Date.now().toString() + ".json");
-            resolve("done");
+            resolve();
           }
           reject("Draw Some Features First...");
         });
         try {
-          const result = await myPromise;
-          console.log(result);
-          // if (result) this.UPDATE_EXPORT_JSON(false);
+          await myPromise;
         } catch (error) {
           this.$emit("error", error);
         } finally {
@@ -419,18 +416,16 @@ export default {
       // this.UPDATE_EXPORT_JSON(false);
     }
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (!vm.sidebar) vm.UPDATE_SIDEBAR(true);
-      vm.UPDATE_LOADING(true);
-    });
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     if (!vm.sidebar && vm.$vuetify.breakpoint.mdAndUp)
+  //       vm.UPDATE_SIDEBAR(true);
+  //     // vm.UPDATE_LOADING(true);
+  //   });
+  // },
   mounted() {
-    // alert("asdasd");
-    // Object.keys(this.layers).forEach(i => {
-    //   if (this.layers[i].visible) return;
-    // });
-    // this.UPDATE_LOADING(false);
+    if (!this.sidebar && this.$vuetify.breakpoint.mdAndUp)
+      this.UPDATE_SIDEBAR(true);
   }
 };
 </script>

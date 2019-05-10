@@ -1,3 +1,14 @@
+import { mapGettersFromStates, mapMutationsFromTypes } from "../../helpers";
+import {
+  SET_BASELAYER_VISIBILITY,
+  SET_LAYER_VISIBILITY,
+  SET_MULTI_INFO,
+  SET_DRAW_TYPE,
+  SET_SELECTED_FEATURE,
+  SET_ACTIVE_TREE_ITEM,
+  SET_ACTIVE_LAYER,
+  SET_MEASURE_OUTPUT
+} from "../mutation-types";
 import { baseLayers, layers, utilityLayers } from "./mapLayers";
 const state = {
   baseLayersList: Object.keys(baseLayers),
@@ -13,73 +24,53 @@ const state = {
   multiInfo: false,
   activeLayer: null
 };
-
 const getters = {
-  baseLayersList: state => state.baseLayersList,
-  baseLayers: state => state.baseLayers,
-  layersList: state => state.layersList,
-  layers: state => state.layers,
-  utilityLayersList: state => state.utilityLayersList,
-  utilityLayers: state => state.utilityLayers,
-  drawType: state => state.drawType,
-  selectedFeature: state => state.selectedFeature,
-  multiInfo: state => state.multiInfo,
-  activeTreeItem: state => state.activeTreeItem,
-  activeLayer: state => state.activeLayer,
-  measureOutput: state => state.measureOutput
+  ...mapGettersFromStates({
+    states: state
+  })
 };
+
 const mutations = {
-  SET_LAYER_VISIBILITY(state, { item, value }) {
-    Object.assign(item, { visible: value });
+  [SET_BASELAYER_VISIBILITY](state, { id, value }) {
+    state.baseLayers[id].visible = value;
   },
-  SET_NULL_LAYER(state, item) {
-    Object.assign(item, { loaded: false });
-    console.log(item);
+  [SET_LAYER_VISIBILITY](state, { id, value }) {
+    state.layers[id].visible = value;
   },
-  SET_MULTI_INFO(state, payload) {
+  [SET_MULTI_INFO](state, payload) {
     state.multiInfo = payload;
   },
-  SET_DRAW_TYPE(state, payload) {
+  [SET_DRAW_TYPE](state, payload) {
     state.drawType = payload;
   },
-  SET_SELECTED_FEATURE(state, payload) {
+  [SET_SELECTED_FEATURE](state, payload) {
     state.selectedFeature = payload;
   },
-  SET_ACTIVE_TREE_ITEM(state, payload) {
+  [SET_ACTIVE_TREE_ITEM](state, payload) {
     state.activeTreeItem = payload;
   },
-  SET_ACTIVE_LAYER(state, { value }) {
+  [SET_ACTIVE_LAYER](state, { value }) {
     state.activeLayer = value;
   },
-  SET_MEASURE_OUTPUT(state, payload) {
+  [SET_MEASURE_OUTPUT](state, payload) {
     state.measureOutput = payload;
   }
 };
 const actions = {
   UPDATE_VISIBILITY({ commit }, { id, value }) {
-    let item;
-    if (state.baseLayersList.includes(parseInt(id))) {
+    if (state.baseLayersList.includes(id)) {
       /* first find and change Clicked Base Layer Visibility */
-      item = state.baseLayers[id];
-      commit("SET_LAYER_VISIBILITY", { item, value });
+      commit("SET_BASELAYER_VISIBILITY", { id, value });
       /* then find and change other Base Layers Visibility*/
       Object.keys(state.baseLayers).forEach(i => {
         if (i !== id) {
-          item = state.baseLayers[i];
-          let value = false; //! mutation is BAD!!!
-          commit("SET_LAYER_VISIBILITY", { item, value });
+          commit("SET_BASELAYER_VISIBILITY", { id: i, value: !value });
         }
       });
       /* handle other layers */
-    } else if (!state.baseLayersList.includes(parseInt(id))) {
-      item = state.layers[id];
-      commit("SET_LAYER_VISIBILITY", { item, value });
+    } else if (!state.baseLayersList.includes(id)) {
+      commit("SET_LAYER_VISIBILITY", { id, value });
     }
-  },
-  NULL_LAYER({ commit }, { id }) {
-    let item = state.layers[id];
-    console.log(item);
-    commit("SET_NULL_LAYER", item);
   },
   UPDATE_DRAW_TYPE({ commit }, payload) {
     commit("SET_DRAW_TYPE", payload);

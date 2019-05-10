@@ -1,3 +1,11 @@
+import { mapGettersFromStates } from "../../helpers";
+import {
+  SET_APP_STATUS,
+  SET_SIDEBAR,
+  SET_PRINT,
+  SET_LOADING,
+  SET_EXPORT_JSON
+} from "../mutation-types";
 const state = {
   sidebar: false,
   appStatus: "display",
@@ -13,26 +21,24 @@ const state = {
   loading: false
 };
 const getters = {
-  appStatus: state => state.appStatus,
-  sidebar: state => state.sidebar,
-  print: state => state.print,
-  loading: state => state.loading,
-  exportJson: state => state.exportJson
+  ...mapGettersFromStates({
+    states: state
+  })
 };
 const mutations = {
-  SET_APP_STATUS(state, payload) {
+  [SET_APP_STATUS](state, payload) {
     state.appStatus = payload;
   },
-  SET_SIDEBAR(state, payload) {
+  [SET_SIDEBAR](state, payload) {
     state.sidebar = payload;
   },
-  SET_PRINT(state, payload) {
+  [SET_PRINT](state, payload) {
     state.print = payload;
   },
-  SET_LOADING(state, payload) {
+  [SET_LOADING](state, payload) {
     state.loading = payload;
   },
-  SET_EXPORT_JSON(state, payload) {
+  [SET_EXPORT_JSON](state, payload) {
     state.exportJson = payload;
   }
 };

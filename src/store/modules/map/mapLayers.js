@@ -40,7 +40,6 @@ const layers = {
     title: "Bird Directive Sites [EN]",
     cmp: "vl-layer-vector",
     visible: false,
-    loaded: true,
     renderMode: "image",
     source: {
       cmp: "vl-source-vector",
@@ -59,7 +58,6 @@ const layers = {
     title: "Habitats Directive Sites [EN]",
     cmp: "vl-layer-vector",
     visible: false,
-    loaded: true,
     renderMode: "image",
     source: {
       cmp: "vl-source-vector",
@@ -77,8 +75,7 @@ const layers = {
   202: {
     title: "Municipality boundaries (Kallikratis) [EL]",
     cmp: "vl-layer-vector",
-    visible: true,
-    loaded: true,
+    visible: false,
     renderMode: "image",
     source: {
       cmp: "vl-source-vector",
@@ -107,6 +104,20 @@ const layers = {
         factory: defaultStyle
       }
     ]
+  },
+  203: {
+    name: "wms",
+    title: "Corine Land Cover 2012",
+    cmp: "vl-layer-tile",
+    visible: true,
+    source: {
+      cmp: "vl-source-wms",
+      url:
+        "http://copernicus.discomap.eea.europa.eu/arcgis/services/Corine/CLC2012/MapServer/WMSServer?request=GetMap",
+      layers: "Corine Land Cover 2012 raster",
+      extParams: { TILED: true },
+      serverType: "mapserver"
+    }
   }
 };
 const utilityLayers = {

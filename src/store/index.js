@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import app from "./modules/app";
-import map from "./modules/map/index";
+import map from "./modules/map";
 
 Vue.use(Vuex);
 

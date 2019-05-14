@@ -44,6 +44,7 @@
         v-bind="layer.source"
         @update:features="layerloaded"
         @error="handleError"
+        @imageloadend="layerloaded"
       >
         <!-- add static features to vl-source-vector if provided -->
         <vl-feature
@@ -424,6 +425,7 @@ export default {
   //   });
   // },
   mounted() {
+    this.UPDATE_LOADING(true);
     if (!this.sidebar && this.$vuetify.breakpoint.mdAndUp)
       this.UPDATE_SIDEBAR(true);
   }

@@ -1,5 +1,5 @@
 <template>
-  <v-layout v-if="this.$route.name === 'main'" pa-3>
+  <v-layout v-if="this.$route.name === 'main'" pa-3 row wrap>
     <v-flex>
       <v-card class="mx-auto" max-width="500">
         <v-sheet class="pa-3 secondary">
@@ -46,29 +46,45 @@
                 @click="changeVisibility(item)"
               ></v-icon
             ></template>
-            <!-- <template v-slot:append="{ item }">
+            <template v-slot:append="{ item }">
               <v-icon
-                v-if="item.loaded == false"
-                color="error"
-                v-text="'mdi-close-circle'"
+                v-if="hasWmsLegend(item)"
+                color="accent"
+                v-text="'mdi-map-legend'"
+                @click.stop="loadLegend(item)"
               ></v-icon>
-            </template> -->
+            </template>
           </v-treeview>
         </v-card-text>
       </v-card>
       <!-- {{ this.selected }} -->
+    </v-flex>
+    <v-flex>
+      <MapLegend
+        :legendBaseUrl="legendBaseUrl"
+        :legendLayer="legendLayer"
+        :showLegend="showLegend"
+        @legendClose="showLegend = !showLegend"
+      ></MapLegend>
     </v-flex>
   </v-layout>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
-
+import MapLegend from "@/components/MapLegend.vue";
 export default {
+  components: {
+    MapLegend
+  },
   data: () => ({
     open: [],
     search: null,
-    caseSensitive: false
+    caseSensitive: false,
+    showLegend: false,
+    legendBaseUrl: "",
+    legendLayer: "",
+    legendFormat: ""
   }),
   computed: {
     ...mapGetters("map", ["layers", "baseLayers", "activeTreeItem"]),
@@ -122,6 +138,21 @@ export default {
         if (!visible) this.UPDATE_LOADING(true);
         this.UPDATE_VISIBILITY({ id, value: !visible });
       }
+    },
+    hasWmsLegend(item) {
+      if (
+        item.visible &&
+        item.hasOwnProperty("source") &&
+        item.source.hasOwnProperty("cmp") &&
+        item.source.cmp.includes("wms")
+      )
+        return true;
+      return false;
+    },
+    loadLegend(item) {
+      this.legendBaseUrl = item.source.url;
+      this.legendLayer = item.source.layers;
+      this.showLegend = true;
     }
   },
   mounted() {},

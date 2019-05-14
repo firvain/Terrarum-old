@@ -2,7 +2,6 @@ import { loadingBBox } from "vuelayers/lib/ol-ext";
 import { defaultStyle, drawStyle, NaturaStyleFunc } from "./utils";
 
 import { loaderFactory as loader } from "./utils";
-
 const baseLayers = {
   100: {
     name: "osm",
@@ -75,7 +74,7 @@ const layers = {
   202: {
     title: "Municipality boundaries (Kallikratis) [EL]",
     cmp: "vl-layer-vector",
-    visible: false,
+    visible: true,
     renderMode: "image",
     source: {
       cmp: "vl-source-vector",
@@ -108,14 +107,15 @@ const layers = {
   203: {
     name: "wms",
     title: "Corine Land Cover 2012",
-    cmp: "vl-layer-tile",
+    cmp: "vl-layer-image",
     visible: true,
     source: {
-      cmp: "vl-source-wms",
+      cmp: "vl-source-image-wms",
       url:
-        "http://copernicus.discomap.eea.europa.eu/arcgis/services/Corine/CLC2012/MapServer/WMSServer?request=GetMap",
+        "http://copernicus.discomap.eea.europa.eu/arcgis/services/Corine/CLC2012/MapServer/WMSServer?",
       layers: "Corine Land Cover 2012 raster",
-      extParams: { TILED: true },
+      extParams: { TILED: false },
+      styles: "",
       serverType: "mapserver"
     }
   }

@@ -60,7 +60,11 @@ export default {
       let target = [];
       Object.keys(this.layers).map(k => {
         // const original = this.layers[k];
-        if (!this.layers[k]["visible"]) return;
+        if (
+          !this.layers[k]["visible"] ||
+          this.layers[k]["source"]["cmp"].includes("wms")
+        )
+          return;
         const value = k;
         const text = this.layers[k]["title"];
         const item = { value, text };

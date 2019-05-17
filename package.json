@@ -9,7 +9,7 @@
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "start": "node server.js",
-    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build ; fi "
+    "postinstall": "npm run build "
   },
   "license": "MIT",
   "author": {
@@ -21,6 +21,7 @@
     "url": "https://github.com/firvain/Terrarum.git"
   },
   "dependencies": {
+    "auth0-js": "^9.10.2",
     "colormap": "^2.3.1",
     "connect-history-api-fallback": "^1.6.0",
     "core-js": "^2.6.5",

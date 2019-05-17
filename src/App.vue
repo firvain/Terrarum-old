@@ -33,6 +33,12 @@
           </template>
           <span>{{ $t("toolbar.about") }}</span>
         </v-tooltip>
+
+        <v-btn v-if="!isAuthenticated" flat @click.prevent="login">LOGIN</v-btn>
+        <v-btn v-if="isAuthenticated" flat @click.prevent="logout"
+          >LOGOUT</v-btn
+        >
+        <v-btn v-if="isAuthenticated" flat to="/profile">Profile</v-btn>
       </v-toolbar-items>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
@@ -112,7 +118,8 @@ export default {
   },
   data() {
     return {
-      drawer: false
+      drawer: false,
+      isAuthenticated: false
     };
   },
   computed: {
@@ -133,6 +140,23 @@ export default {
     },
     country(v) {
       this.$i18n.set(v);
+    },
+    login() {
+      this.$auth.login();
+    },
+    logout() {
+      this.$auth.logOut();
+    },
+    handleLoginEvent(data) {
+      this.isAuthenticated = data.loggedIn;
+      this.profile = data.profile;
+    },
+    async created() {
+      try {
+        await this.$auth.renewTokens();
+      } catch (e) {
+        console.log(e);
+      }
     }
   },
   watch: {

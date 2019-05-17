@@ -1,4 +1,4 @@
-import { mapGettersFromStates, mapMutationsFromTypes } from "../../helpers";
+import { mapGettersFromStates } from "../../helpers";
 import {
   SET_BASELAYER_VISIBILITY,
   SET_LAYER_VISIBILITY,

@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import Home from "./views/Home.vue";
+import Callback from "./components/Callback";
+import Profile from "./components/Profile";
+
+import auth from "./services/authService";
 
 Vue.use(Router);
 
@@ -57,6 +60,29 @@ export default new Router({
             )
         }
       ]
+    },
+    {
+      path: "/callback",
+      name: "callback",
+      component: Callback
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: Profile,
+      beforeEnter: (to, from, next) => {
+        console.log(to.path);
+        if (
+          to.path === "/" ||
+          to.path === "/callback" ||
+          auth.isAuthenticated()
+        ) {
+          return next();
+        }
+        // Specify the current path as the customState parameter, meaning it
+        // will be returned to the application after auth
+        auth.login({ target: to.path });
+      }
     }
   ]
 });

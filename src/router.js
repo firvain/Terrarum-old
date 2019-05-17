@@ -1,7 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Callback from "./components/Callback";
-import Profile from "./components/Profile";
 
 import auth from "./services/authService";
 
@@ -64,12 +62,14 @@ export default new Router({
     {
       path: "/callback",
       name: "callback",
-      component: Callback
+      component: () =>
+        import(/* webpackChunkName: "callback" */ "./components/Callback.vue")
     },
     {
       path: "/profile",
       name: "profile",
-      component: Profile,
+      component: () =>
+        import(/* webpackChunkName: "profile" */ "./components/Profile.vue"),
       beforeEnter: (to, from, next) => {
         console.log(to.path);
         if (

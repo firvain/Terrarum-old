@@ -34,11 +34,15 @@
           <span>{{ $t("toolbar.about") }}</span>
         </v-tooltip>
 
-        <v-btn v-if="!isAuthenticated" flat @click.prevent="login">LOGIN</v-btn>
-        <v-btn v-if="isAuthenticated" flat @click.prevent="logout"
-          >LOGOUT</v-btn
+        <v-btn icon v-if="!isAuthenticated" flat @click.prevent="login">
+          <v-icon>mdi-login</v-icon>
+        </v-btn>
+        <v-btn icon v-if="isAuthenticated" flat @click.prevent="logout">
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+        <v-btn v-if="isAuthenticated" icon flat to="/profile">
+          <v-icon>mdi-account-circle</v-icon></v-btn
         >
-        <v-btn v-if="isAuthenticated" flat to="/profile">Profile</v-btn>
       </v-toolbar-items>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">

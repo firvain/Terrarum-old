@@ -8,6 +8,7 @@
 export default {
   methods: {
     handleLoginEvent(data) {
+      console.log(data);
       if (!data.error) {
         this.$router.push(data.state.target || "/");
       }

@@ -23,6 +23,10 @@ export default {
       profile: this.$auth.profile
     };
   },
-  methods: {}
+  methods: {
+    handleLoginEvent(data) {
+      this.profile = data.profile;
+    }
+  }
 };
 </script>

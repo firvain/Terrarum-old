@@ -1,108 +1,40 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-start justify-start row wrap>
-      <v-flex xs6 md6>
-        <span class="display-1 font-weight-black d-inline-block">Welcome</span>
+  <v-container fluid>
+    <v-layout align-start justify-center row wrap fill-height>
+      <v-flex xs12 text-xs-center>
+        <span class="display-2 font-weight-black d-inline-block">Welcome</span>
+
         <span class="display-2 font-weight-regular d-inline-block"> to</span>
-        <span class="display-3 font-weight-black primary--text d-inline-block"
-          >Terrarum</span
-        >
+
+        <span class="display-2 font-weight-black primary--text d-inline-block"
+          >Terrarum
+        </span>
       </v-flex>
+
       <v-flex xs12>
-        <v-container grid-list-lg>
-          <v-layout align-center justify-center row wrap class="home">
-            <v-flex xs6>
-              <v-card flat>
-                <v-img
-                  :src="require('@/assets/map.png')"
-                  alt="map"
-                  height="400"
-                  contain
-                ></v-img>
-                <v-card-title primary-title>
-                  <div>
-                    <h3 class="headline mb-0">Visualise your data</h3>
-                  </div>
-                </v-card-title>
-              </v-card>
+        <v-container grid-list-lg fill-height>
+          <v-layout align-center justify-center row wrap>
+            <v-flex xs2 text-xs-center>
+              <v-img
+                :src="require('@/assets/map.png')"
+                alt="map"
+                height="200"
+                contain
+              ></v-img>
             </v-flex>
-            <v-spacer></v-spacer>
-            <v-flex xs6>
-              <v-card flat>
-                <v-img
-                  contain
-                  :src="require('@/assets/map.png')"
-                  alt="map"
-                  height="400"
-                ></v-img>
-                <v-card-title primary-title>
-                  <div>
-                    <h3 class="headline mb-0">Visualise your data</h3>
-                  </div>
-                </v-card-title>
-              </v-card>
+            <v-flex xs2 text-xs-left>
+              <span class="headline mb-0 primary--text">Visualize</span>
             </v-flex>
-            <v-spacer></v-spacer>
-            <v-flex xs6>
-              <v-card flat>
-                <v-img
-                  contain
-                  :src="require('@/assets/map.png')"
-                  alt="map"
-                  height="400"
-                ></v-img>
-                <v-card-title primary-title>
-                  <div>
-                    <h3 class="headline mb-0">Visualise your data</h3>
-                  </div>
-                </v-card-title>
-              </v-card>
+            <v-flex xs2 text-xs-center>
+              <v-img
+                :src="require('@/assets/map.png')"
+                alt="map"
+                height="200"
+                contain
+              ></v-img>
             </v-flex>
-            <v-spacer></v-spacer>
-            <v-flex xs6>
-              <v-card flat>
-                <v-img
-                  contain
-                  :src="require('@/assets/map.png')"
-                  alt="map"
-                  height="400"
-                ></v-img>
-                <v-card-title primary-title>
-                  <div>
-                    <h3 class="headline mb-0">Visualise your data</h3>
-                  </div>
-                </v-card-title>
-              </v-card>
-            </v-flex>
-            <v-flex xs6>
-              <v-card flat>
-                <v-img
-                  contain
-                  :src="require('@/assets/map.png')"
-                  alt="map"
-                  aspect-ratio="1"
-                ></v-img>
-                <v-card-title primary-title>
-                  <div>
-                    <h3 class="headline mb-0">Visualise your data</h3>
-                  </div>
-                </v-card-title>
-              </v-card>
-            </v-flex>
-            <v-flex xs6>
-              <v-card flat>
-                <v-img
-                  contain
-                  :src="require('@/assets/map.png')"
-                  alt="map"
-                  height="400"
-                ></v-img>
-                <v-card-title primary-title>
-                  <div>
-                    <h3 class="headline mb-0">Visualise your data</h3>
-                  </div>
-                </v-card-title>
-              </v-card>
+            <v-flex xs2 text-xs-left>
+              <span class="headline mb-0 primary--text">Visualize</span>
             </v-flex>
           </v-layout>
         </v-container>

@@ -262,12 +262,10 @@ export default {
       // interactions.forEach(interaction => console.log(interaction));
     },
     mapRenderComplete(e) {
-      console.log(e);
       this.UPDATE_LOADING(false);
     },
     postC(e) {
       this.UPDATE_LOADING(true);
-      console.log(e);
     },
     async tileLoadingError(e) {
       console.log(e.target);

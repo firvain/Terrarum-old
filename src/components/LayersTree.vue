@@ -135,9 +135,9 @@ export default {
         this.UPDATE_VISIBILITY({ id, value: !visible });
       }
       if (this.layers[id] != null) {
-        if (!visible) this.UPDATE_LOADING(true);
         this.UPDATE_VISIBILITY({ id, value: !visible });
       }
+      if (!visible) this.UPDATE_LOADING(true);
     },
     hasWmsLegend(item) {
       if (

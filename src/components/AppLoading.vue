@@ -1,9 +1,9 @@
 <template>
   <div class="text-xs-center">
-    <v-dialog v-model="loading" persistent width="300">
+    <v-dialog v-model="loading" persistent hide-overlay width="300">
       <v-card color="primary" dark>
         <v-card-text>
-          Please stand by
+          Loading Data. Please stand by...
           <v-progress-linear
             indeterminate
             color="white"

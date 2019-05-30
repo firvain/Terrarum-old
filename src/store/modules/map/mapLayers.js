@@ -6,7 +6,9 @@ const baseLayers = {
   100: {
     name: "osm",
     title: "OpenStreetMap",
-    visible: true
+    visible: true,
+    crossOrigin: "anonymous",
+    preload: Infinity
   },
   // 101: {
   //   name: "sputnik",
@@ -18,7 +20,9 @@ const baseLayers = {
     title: "Bing Maps",
     apiKey: "Ap3sskZ5BccP6TvBr0FoLc9orA4_R1uh-8UjpOKYciXL1hNMtAJr_BdxMjTJNkpv",
     imagerySet: "AerialWithLabelsOnDemand",
-    visible: false
+    visible: false,
+    crossOrigin: "anonymous",
+    preload: Infinity
   }
   // 102: {
   //   name: "wms",
@@ -111,6 +115,7 @@ const layers = {
     visible: true,
     source: {
       cmp: "vl-source-image-wms",
+      crossOrigin: "Anonymous",
       url:
         "http://copernicus.discomap.eea.europa.eu/arcgis/services/Corine/CLC2012/MapServer/WMSServer?",
       layers: "Corine Land Cover 2012 raster",

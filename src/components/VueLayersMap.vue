@@ -2,11 +2,12 @@
   <vl-map
     id="mymap"
     ref="map"
-    :load-tiles-while-animating="true"
-    :load-tiles-while-interacting="true"
+    :load-tiles-while-animating="false"
+    :load-tiles-while-interacting="false"
     data-projection="EPSG:4326"
     :style="mapStyle"
     @mounted="onMapMounted"
+    @rendercomplete="mapRenderComplete"
   >
     <vl-view
       :zoom.sync="zoom"
@@ -20,8 +21,14 @@
       :key="key"
       :id="key"
       :visible="layer.visible"
+      :preload="layer.preload"
     >
-      <component :is="'vl-source-' + layer.name" v-bind="layer"></component>
+      <component
+        :is="'vl-source-' + layer.name"
+        v-bind="layer"
+        @tileloadstart.stop="postC"
+        @tileloaderror="tileLoadingError"
+      ></component>
       <!-- <component
         :is="layer.source.cmp"
         v-bind="layer.source"
@@ -33,7 +40,7 @@
     <component
       v-for="(layer, key) in layers"
       :is="layer.cmp"
-      v-if="layer.visible"
+      :visible="layer.visible"
       :key="key"
       :id="key"
       v-bind="layer"
@@ -42,77 +49,39 @@
       <component
         :is="layer.source.cmp"
         v-bind="layer.source"
-        @update:features="layerloaded"
         @error="handleError"
-        @imageloadend="layerloaded"
+        @imageloadstart="postC"
       >
-        <!-- add static features to vl-source-vector if provided -->
-        <vl-feature
-          v-if="
-            layer.source.staticFeatures && layer.source.staticFeatures.length
-          "
-          v-for="feature in layer.source.staticFeatures"
-          :key="feature.id"
-          :id="feature.id"
-          :properties="feature.properties"
-        >
-          <component
-            :is="geometryTypeToCmpName(feature.geometry.type)"
-            v-bind="feature.geometry"
-          ></component>
-        </vl-feature>
-
-        <!-- add inner source if provided (like vl-source-vector inside vl-source-cluster) -->
-        <component
-          v-if="layer.source.source"
-          :is="layer.source.source.cmp"
-          v-bind="layer.source.source"
-        >
-          <!-- add static features to vl-source-vector if provided -->
-          <vl-feature
-            v-if="
-              layer.source.source.staticFeatures &&
-                layer.source.source.staticFeatures.length
-            "
-            v-for="feature in layer.source.source.staticFeatures"
-            :key="feature.id"
-            :id="feature.id"
-            :properties="feature.properties"
-          >
-            <component
-              :is="geometryTypeToCmpName(feature.geometry.type)"
-              v-bind="feature.geometry"
-            ></component>
-          </vl-feature>
-        </component>
       </component>
       <!--// vl-source-* -->
 
       <!-- add style components if provided -->
       <!-- create vl-style-box or vl-style-func -->
-      <component
-        v-if="layer.style"
-        v-for="(style, i) in layer.style"
-        :key="i"
-        :is="style.cmp"
-        v-bind="style"
-      >
-        <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
+      <div v-if="layer.style">
         <component
-          v-if="style.styles"
-          v-for="(st, cmp) in style.styles"
-          :key="cmp"
-          :is="cmp"
-          v-bind="st"
+          v-for="(style, i) in layer.style"
+          :key="i"
+          :is="style.cmp"
+          v-bind="style"
         >
-          <!-- vl-style-fill, vl-style-stroke if provided -->
-          <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
-          <vl-style-stroke
-            v-if="st.stroke"
-            v-bind="st.stroke"
-          ></vl-style-stroke>
+          <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
+          <div v-if="style.styles">
+            <component
+              v-for="(st, cmp) in style.styles"
+              :key="cmp"
+              :is="cmp"
+              v-bind="st"
+            >
+              <!-- vl-style-fill, vl-style-stroke if provided -->
+              <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
+              <vl-style-stroke
+                v-if="st.stroke"
+                v-bind="st.stroke"
+              ></vl-style-stroke>
+            </component>
+          </div>
         </component>
-      </component>
+      </div>
       <!--// style -->
     </component>
     <!--// other layers from Vuex-->
@@ -121,7 +90,9 @@
     <component
       v-for="(layer, key) in utilityLayers"
       :is="layer.cmp"
-      v-if="layer.visible && (appStatus === 'draw' || appStatus === 'measure')"
+      :visible="
+        layer.visible && (appStatus === 'draw' || appStatus === 'measure')
+      "
       :key="key"
       :id="layer.id"
       v-bind="layer"
@@ -133,29 +104,31 @@
         :features.sync="drawnFeatures"
       >
       </component>
-      <component
-        v-if="layer.style"
-        v-for="(style, i) in layer.style"
-        :key="i"
-        :is="style.cmp"
-        v-bind="style"
-      >
-        <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
+      <div v-if="layer.style">
         <component
-          v-if="style.styles"
-          v-for="(st, cmp) in style.styles"
-          :key="cmp"
-          :is="cmp"
-          v-bind="st"
+          v-for="(style, i) in layer.style"
+          :key="i"
+          :is="style.cmp"
+          v-bind="style"
         >
-          <!-- vl-style-fill, vl-style-stroke if provided -->
-          <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
-          <vl-style-stroke
-            v-if="st.stroke"
-            v-bind="st.stroke"
-          ></vl-style-stroke>
+          <!-- create inner style components: vl-style-circle, vl-style-icon, vl-style-fill, vl-style-stroke & etc -->
+          <div v-if="layer.style">
+            <component
+              v-for="(st, cmp) in style.styles"
+              :key="cmp"
+              :is="cmp"
+              v-bind="st"
+            >
+              <!-- vl-style-fill, vl-style-stroke if provided -->
+              <vl-style-fill v-if="st.fill" v-bind="st.fill"></vl-style-fill>
+              <vl-style-stroke
+                v-if="st.stroke"
+                v-bind="st.stroke"
+              ></vl-style-stroke>
+            </component>
+          </div>
         </component>
-      </component>
+      </div>
     </component>
     <!--// Drawing Layers -->
     <!-- Interactions -->
@@ -206,6 +179,7 @@ import OverviewMap from "ol/control/OverviewMap";
 import ZoomSlider from "ol/control/ZoomSlider";
 import { getArea, getLength } from "ol/sphere.js";
 import { Polygon } from "ol/geom.js";
+import { Promise } from "q";
 
 export default {
   name: "VueLayersMap",
@@ -215,7 +189,11 @@ export default {
       zoom: 10,
       rotation: 0,
       selectedFeatures: [],
-      drawnFeatures: []
+      drawnFeatures: [],
+      controls: {
+        dragPan: false,
+        mouseWheelZoom: false
+      }
     };
   },
   computed: {
@@ -279,10 +257,23 @@ export default {
         }),
         new ZoomSlider()
       ]);
+      // this.$refs.map.$map.removeInteraction("DragPan");
+      // const interactions = this.$refs.map.$map.getInteractions().clear();
+      // interactions.forEach(interaction => console.log(interaction));
     },
-    layerloaded() {
+    mapRenderComplete(e) {
+      console.log(e);
       this.UPDATE_LOADING(false);
     },
+    postC(e) {
+      this.UPDATE_LOADING(true);
+      console.log(e);
+    },
+    async tileLoadingError(e) {
+      console.log(e.target);
+    },
+
+    layerloaded() {},
     formatLength(line) {
       const length = getLength(line);
       let output;
